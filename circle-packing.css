@@ -1,0 +1,28 @@
+circle {
+  fill-opacity: .25;
+  stroke-width: 1px;
+  fill: #1f77b4;
+  stroke: steelblue;
+}
+
+.leaf circle {
+  fill-opacity: 0;
+  pointer-events: none;
+}
+
+text {
+  font: 12px sans-serif;
+}
+
+.leaf text {
+  opacity: 0;
+}
+
+text.parent {
+  fill: #1f77b4;
+}
+
+circle.parent:hover {
+  stroke: #ff7f0e;
+  stroke-width: .5px;
+}
