@@ -6,6 +6,10 @@ Visualization UI for exploring collaborative and personal data.
 Local Development
 -----------------
 
+Compile CoffeeScript to JavaScript:
+
+    coffee -c *.coffee
+
 To serve locally, you may (depending on your system config) be able to simply:
 
     python -m SimpleHTTPServer 8888
