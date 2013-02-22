@@ -20,4 +20,4 @@ Or if you have Ruby and Sinatra installed:
 
     ruby app.rb
 
-This should start a sinatra app at <http://localhost:4567/>.
+This should start a Sinatra app at <http://localhost:4567/>.
