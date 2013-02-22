@@ -9,8 +9,7 @@ class root.App
     @github = new App.Github
     @d3 = new d3_layout   
     $(@path_elem).find('[data-path="root"]').on('click', =>
-      $(@path_elem).find('[data-path="path"]').empty()
-      @loadGitRepo(@loaded.repo, $.extend(@loaded, sha: 'HEAD'))
+      @render(@data.root)
     )
 
   loadGitRepo: (repo, options = {}) ->
@@ -18,14 +17,18 @@ class root.App
     @loaded = opts
     opts.recursive = if opts.recursive then 1 else 0
     unless opts.local
-      repo = "https://api.github.com/repos/#{repo}/git/trees/#{opts.sha}?recursive=#{opts.recursive}"
+      repo = "https://api.github.com/repos/#{repo}/git/trees/#{opts.sha}?recursive=#{opts.recursive}&callback=?"
     @github.loadRepo(repo, (data) =>
-      data = @github.parseForD3(data)
-      #data = @trimTree(data, 2)
-      $(@viz_elem).empty()
-      @d3.render(@viz_elem, data, click: @onCircleClick)
-      @renderList(data) if data.children
+      @data = @github.parseForD3(data)
+      @render(@data.root)
     )
+
+  render: (data) ->
+    #data = @trimTree(data, 2)
+    $(@path_elem).find('[data-path="path"]').text(data.path)
+    $(@viz_elem).empty()
+    @d3.render(@viz_elem, data, click: @onCircleClick)
+    @renderList(data) if data.children
 
   renderList: (data) ->
     list = $(@list_elem).empty()
@@ -55,5 +58,4 @@ class root.App
     0
 
   onCircleClick: (evt) =>
-    $(@path_elem).find('[data-path="path"]').text(evt.path)
-    @loadGitRepo(@loaded.repo, $.extend(@loaded, sha: evt.sha))
+    @render(evt)
