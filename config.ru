@@ -1,2 +1,3 @@
 require './app'
-run Sinatra::Application
+App.set :run, false
+run App

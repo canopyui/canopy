@@ -1,0 +1,41 @@
+!!!
+%html
+  %head
+    %title Github Visualizer
+    = css :app
+  %body
+    .viz-type
+      %a.circle-packing.viz{:href => "#"} Circle Packing
+      %a
+      %a.radial-tree.viz{:href => "#"} Radial Tree
+      %a
+    #viz-path
+      %a{"data-path" => "root", :href => "#"} root/
+      %a
+        %span{"data-path" => "path"}
+    #viz-collections
+    #viz-list
+    .viz-type
+      %a.circle-packing.viz{:href => "#"}
+        %img{:src => "assets/images/circle_packing.png"}/
+      %a
+      %a.radial-tree.viz{:href => "#"}
+        %img{:src => "assets/images/radial_tree.png"}/
+      %a
+    = js :libs
+    = js :app
+    :javascript
+      $('.circle-packing.viz').click(function(){
+        var app = new App(App.D3CirclePack);
+        app.loadGitRepo('wycats/thor');
+      });
+      
+      $('.radial-tree.viz').click(function(){
+        var app = new App(App.D3RadialTree);
+        app.loadGitRepo('wycats/thor');
+      });
+      
+      $(document).ready(function() {
+        var app = new App(App.D3CirclePack);
+        app.loadGitRepo('wycats/thor');
+      });
