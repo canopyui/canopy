@@ -69,8 +69,8 @@
       svg = d3.select(elem).append("svg").attr("width", diameter).attr("height", diameter - 150).append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
       nodes = tree.nodes(data);
       links = tree.links(nodes);
-      link = svg.selectAll(".link").data(links).enter().append("path").attr("class", "link").attr("d", diagonal);
-      node = svg.selectAll(".node").data(nodes).enter().append("g").attr("class", "node").attr("transform", function(d) {
+      link = svg.selectAll("" + elem + " .link").data(links).enter().append("path").attr("class", "link").attr("d", diagonal);
+      node = svg.selectAll("" + elem + " .node").data(nodes).enter().append("g").attr("class", "node").attr("transform", function(d) {
         return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
       });
       node.append("circle").attr("r", 4.5);

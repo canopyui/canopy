@@ -47,7 +47,7 @@ class root.App.D3RadialTree
     diagonal = d3.svg.diagonal.radial()
       .projection((d) -> [d.y, d.x / 180 * Math.PI])
 
-    svg = d3.select("body").append("svg")
+    svg = d3.select(elem).append("svg")
         .attr("width", diameter)
         .attr("height", diameter - 150)
       .append("g")
@@ -55,14 +55,14 @@ class root.App.D3RadialTree
 
     nodes = tree.nodes(data)
     links = tree.links(nodes)
-    link = svg.selectAll(".link")
+    link = svg.selectAll("#{elem} .link")
         .data(links)
       .enter()
         .append("path")
         .attr("class", "link")
         .attr("d", diagonal)
         
-    node = svg.selectAll(".node")
+    node = svg.selectAll("#{elem} .node")
         .data(nodes)
       .enter()
         .append("g")
