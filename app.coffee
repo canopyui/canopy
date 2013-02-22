@@ -1,17 +1,42 @@
 root = exports ? this
 
 class root.App
-  constructor: (repo_url) ->
+  path_elem : '#viz-path'
+  viz_elem  : '#viz-collections'
+  list_elem : '#viz-list'
+
+  constructor: ->
     @github = new App.Github
     @d3 = new App.D3
-    @load(repo_url) if repo_url
-    
-  load: (repo_url) ->
-    @github.loadRepo(repo_url, (data) =>
+    $(@path_elem).find('[data-path="root"]').on('click', =>
+      $(@path_elem).find('[data-path="path"]').empty()
+      @loadGitRepo(@loaded.repo, $.extend(@loaded, sha: 'HEAD'))
+    )
+
+  loadGitRepo: (repo, options = {}) ->
+    opts = $.extend({sha: 'HEAD', local: false, recursive: true}, options, {repo: repo})
+    @loaded = opts
+    opts.recursive = if opts.recursive then 1 else 0
+    unless opts.local
+      repo = "https://api.github.com/repos/#{repo}/git/trees/#{opts.sha}?recursive=#{opts.recursive}"
+    @github.loadRepo(repo, (data) =>
       data = @github.parseForD3(data)
       #data = @trimTree(data, 2)
-      @d3.renderCirclePack(data)
+      $(@viz_elem).empty()
+      @d3.renderCirclePack(@viz_elem, data, click: @onCircleClick)
+      @renderList(data) if data.children
     )
+
+  renderList: (data) ->
+    list = $(@list_elem).empty()
+    data = data.children.sort((a, b) ->
+      a = a.name.toLowerCase(); b = b.name.toLowerCase()
+      return 0 if (a == b)
+      return 1 if (a > b)
+      return -1 if (a < b)
+    )
+    for node in data
+      list.append("<div>#{node.path}</div>")
 
   trimTree: (tree, level = 1, extend = true) ->
     tree = $.extend({}, tree) if extend
@@ -28,3 +53,7 @@ class root.App
   sumSize: (tree) ->
     # todo: recursively sum up blob nodes in tree
     0
+
+  onCircleClick: (evt) =>
+    $(@path_elem).find('[data-path="path"]').text(evt.path)
+    @loadGitRepo(@loaded.repo, $.extend(@loaded, sha: evt.sha))

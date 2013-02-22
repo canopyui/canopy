@@ -1,7 +1,7 @@
 root = exports ? this
 
 class root.App.D3
-  renderCirclePack: (data) ->
+  renderCirclePack: (elem, data, options = {}) ->
     width = 600
     height = 600
     format = d3.format(",d")
@@ -10,14 +10,14 @@ class root.App.D3
       .size([ width - 4, height - 4 ])
       .value((d) -> d.size)
 
-    vis = d3.select("#viz-collections").append("svg")
+    vis = d3.select(elem).append("svg")
         .attr("width", width)
         .attr("height", height)
         .attr("class", "pack")
       .append("g")
         .attr("transform", "translate(2, 2)")
 
-    node = vis.data([ data ]).selectAll("#viz-collections g.node")
+    node = vis.data([ data ]).selectAll("#{elem} g.node")
         .data(pack.nodes)
       .enter().append("g")
         .attr("class", (d) -> if d.children then "node" else "leaf node")
@@ -28,7 +28,7 @@ class root.App.D3
 
     node.append("circle")
       .attr("r", (d) -> d.r)
-      .on "click", (d) -> if d.children then (window.location = d.url) else undefined
+      .on "click", options.click
 
     node.filter((d) -> d.children)
       .append("text")

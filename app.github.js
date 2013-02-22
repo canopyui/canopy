@@ -13,23 +13,26 @@
     };
 
     Github.prototype.parseForD3 = function(data) {
-      var file, node, parent, path, paths, segments, tree, _i, _len;
+      var file, name, node, parent, path, paths, segments, tree, _i, _len;
       tree = data.tree;
       paths = {};
       for (_i = 0, _len = tree.length; _i < _len; _i++) {
         node = tree[_i];
-        if (node.type === 'tree') {
-          continue;
-        }
         segments = ("root/" + node.path).match(/(.*)\/(.*)/);
         file = segments[2];
         path = segments[1];
+        name = path.substr(5);
         paths[path] || (paths[path] = {
-          name: path.substr(5),
-          children: []
+          name: name,
+          children: [],
+          path: name
         });
-        node.name = file;
-        paths[path].children.push(node);
+        if (node.type === 'tree') {
+          $.extend(paths[path], node);
+        } else {
+          node.name = file;
+          paths[path].children.push(node);
+        }
       }
       for (path in paths) {
         node = paths[path];

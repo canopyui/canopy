@@ -8,16 +8,19 @@
 
     function D3() {}
 
-    D3.prototype.renderCirclePack = function(data) {
+    D3.prototype.renderCirclePack = function(elem, data, options) {
       var format, height, node, pack, vis, width;
+      if (options == null) {
+        options = {};
+      }
       width = 600;
       height = 600;
       format = d3.format(",d");
       pack = d3.layout.pack().size([width - 4, height - 4]).value(function(d) {
         return d.size;
       });
-      vis = d3.select("#viz-collections").append("svg").attr("width", width).attr("height", height).attr("class", "pack").append("g").attr("transform", "translate(2, 2)");
-      node = vis.data([data]).selectAll("#viz-collections g.node").data(pack.nodes).enter().append("g").attr("class", function(d) {
+      vis = d3.select(elem).append("svg").attr("width", width).attr("height", height).attr("class", "pack").append("g").attr("transform", "translate(2, 2)");
+      node = vis.data([data]).selectAll("" + elem + " g.node").data(pack.nodes).enter().append("g").attr("class", function(d) {
         if (d.children) {
           return "node";
         } else {
@@ -31,13 +34,7 @@
       });
       node.append("circle").attr("r", function(d) {
         return d.r;
-      }).on("click", function(d) {
-        if (d.children) {
-          return window.location = d.url;
-        } else {
-          return void 0;
-        }
-      });
+      }).on("click", options.click);
       return node.filter(function(d) {
         return d.children;
       }).append("text").attr("text-anchor", "middle").attr("dy", ".3em").text(function(d) {

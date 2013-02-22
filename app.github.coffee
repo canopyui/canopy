@@ -9,15 +9,19 @@ class root.App.Github
     paths = {}
 
     for node in tree
-      continue if node.type == 'tree'
       segments = "root/#{node.path}".match(/(.*)\/(.*)/)
       file = segments[2]
       path = segments[1]
+      name = path.substr(5)
       paths[path] ||=
-        name: path.substr(5)
+        name: name
         children: []
-      node.name = file
-      paths[path].children.push(node)
+        path: name
+      if node.type == 'tree'
+        $.extend(paths[path], node)
+      else
+        node.name = file
+        paths[path].children.push(node)
 
     for path, node of paths
       parent = path.match(/(.*)\/(.*)/)
