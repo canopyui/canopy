@@ -1,7 +1,7 @@
 root = exports ? this
 
-class root.App.D3
-  renderCirclePack: (elem, data, options = {}) ->
+class root.App.D3CirclePack
+  render: (elem, data, options = {}) ->
     width = 600
     height = 600
     format = d3.format(",d")
@@ -37,7 +37,8 @@ class root.App.D3
         .text (d) -> if d.name.length <= d.r/3 then d.name else ""
 
 
-  renderRadialTree: (data) ->
+class root.App.D3RadialTree
+  render: (elem, data, options = {}) ->
     diameter = 960
     tree = d3.layout.tree()
       .size([360, diameter / 2 - 120])

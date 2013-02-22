@@ -4,11 +4,11 @@
 
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
-  root.App.D3 = (function() {
+  root.App.D3CirclePack = (function() {
 
-    function D3() {}
+    function D3CirclePack() {}
 
-    D3.prototype.renderCirclePack = function(elem, data, options) {
+    D3CirclePack.prototype.render = function(elem, data, options) {
       var format, height, node, pack, vis, width;
       if (options == null) {
         options = {};
@@ -46,8 +46,19 @@
       });
     };
 
-    D3.prototype.renderRadialTree = function(data) {
+    return D3CirclePack;
+
+  })();
+
+  root.App.D3RadialTree = (function() {
+
+    function D3RadialTree() {}
+
+    D3RadialTree.prototype.render = function(elem, data, options) {
       var diagonal, diameter, link, links, node, nodes, svg, tree;
+      if (options == null) {
+        options = {};
+      }
       diameter = 960;
       tree = d3.layout.tree().size([360, diameter / 2 - 120]).separation(function(a, b) {
         return (a.parent === b.parent ? 1 : 2) / a.depth;
@@ -55,7 +66,7 @@
       diagonal = d3.svg.diagonal.radial().projection(function(d) {
         return [d.y, d.x / 180 * Math.PI];
       });
-      svg = d3.select("body").append("svg").attr("width", diameter).attr("height", diameter - 150).append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+      svg = d3.select(elem).append("svg").attr("width", diameter).attr("height", diameter - 150).append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
       nodes = tree.nodes(data);
       links = tree.links(nodes);
       link = svg.selectAll(".link").data(links).enter().append("path").attr("class", "link").attr("d", diagonal);
@@ -81,7 +92,7 @@
       return d3.select(self.frameElement).style("height", diameter - 150 + "px");
     };
 
-    return D3;
+    return D3RadialTree;
 
   })();
 

@@ -6,6 +6,10 @@
     <link href="radial-tree.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
+    <div id="viz-type">
+      <a href="#" id="viz-type-circle-packing">Circle Packing<a>
+      <a href="#" id="viz-type-radial-tree">Radial Tree<a>
+    </div>
     <div id="viz-path">
       <a href="#" data-path="root">root/<a>
       <span data-path="path"></span>
@@ -18,8 +22,14 @@
     <script type="text/javascript" src="app.d3.js"></script>
     <script type="text/javascript" src="app.github.js"></script>
     <script>
-      var app = new App;
-      app.loadGitRepo('rails/rails');
+      $('#viz-type-circle-packing').click(function(){
+        var app = new App(App.D3CirclePack);
+        app.loadGitRepo('wycats/thor');
+      });
+      $('#viz-type-radial-tree').click(function(){
+        var app = new App(App.D3RadialTree);
+        app.loadGitRepo('wycats/thor');
+      });
     </script>
   </body>
 </html>

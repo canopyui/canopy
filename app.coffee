@@ -5,9 +5,9 @@ class root.App
   viz_elem  : '#viz-collections'
   list_elem : '#viz-list'
 
-  constructor: ->
+  constructor: (d3_layout) ->
     @github = new App.Github
-    @d3 = new App.D3
+    @d3 = new d3_layout   
     $(@path_elem).find('[data-path="root"]').on('click', =>
       $(@path_elem).find('[data-path="path"]').empty()
       @loadGitRepo(@loaded.repo, $.extend(@loaded, sha: 'HEAD'))
@@ -23,7 +23,7 @@ class root.App
       data = @github.parseForD3(data)
       #data = @trimTree(data, 2)
       $(@viz_elem).empty()
-      @d3.renderCirclePack(@viz_elem, data, click: @onCircleClick)
+      @d3.render(@viz_elem, data, click: @onCircleClick)
       @renderList(data) if data.children
     )
 

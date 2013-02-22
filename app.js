@@ -13,12 +13,12 @@
 
     App.prototype.list_elem = '#viz-list';
 
-    function App() {
+    function App(d3_layout) {
       this.onCircleClick = __bind(this.onCircleClick, this);
 
       var _this = this;
       this.github = new App.Github;
-      this.d3 = new App.D3;
+      this.d3 = new d3_layout;
       $(this.path_elem).find('[data-path="root"]').on('click', function() {
         $(_this.path_elem).find('[data-path="path"]').empty();
         return _this.loadGitRepo(_this.loaded.repo, $.extend(_this.loaded, {
@@ -48,7 +48,7 @@
       return this.github.loadRepo(repo, function(data) {
         data = _this.github.parseForD3(data);
         $(_this.viz_elem).empty();
-        _this.d3.renderCirclePack(_this.viz_elem, data, {
+        _this.d3.render(_this.viz_elem, data, {
           click: _this.onCircleClick
         });
         if (data.children) {
