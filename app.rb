@@ -13,11 +13,8 @@ class App < Sinatra::Base
     serve '/assets/stylesheets',  from: '/assets/stylesheets'
     serve '/assets/images',       from: '/assets/images'
 
-    js :libs, 'assets/javascripts/libs.js', [
-      '/assets/javascripts/vendor/*.js'
-    ]
-
     js :app, '/assets/javascripts/app.js', [
+      '/assets/javascripts/vendor/*.js',
       '/assets/javascripts/application.js',
       '/assets/javascripts/lib/*.js'
     ]
