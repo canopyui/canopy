@@ -7,6 +7,6 @@ Local Development
 -----------------
 
     bundle install
-    ruby app.rb
+    bundle exec ruby app.rb
 
 This should start a Sinatra app at <http://localhost:4567/>.

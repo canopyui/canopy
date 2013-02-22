@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/assetpack'
 require 'haml'
+require 'sass'
 require 'coffee-script'
 
 class App < Sinatra::Base
@@ -12,7 +13,7 @@ class App < Sinatra::Base
     serve '/assets/stylesheets',  from: '/assets/stylesheets'
     serve '/assets/images',       from: '/assets/images'
 
-    js :libs, 'assets/javascripts/lib.js', [
+    js :libs, 'assets/javascripts/libs.js', [
       '/assets/javascripts/vendor/*.js'
     ]
 
