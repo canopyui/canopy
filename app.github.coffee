@@ -1,8 +1,8 @@
 root = exports ? this
 
 class root.App.Github
-  loadRepo: (repo, success, error, recursive = true) ->
-    $.get("https://api.github.com/repos/#{repo}/git/trees/HEAD?recursive=#{if recursive then '1' else '0'}", success)
+  loadRepo: (repo, success, error) ->
+    $.get(repo, success)
 
   parseForD3: (data) ->
     tree = data.tree

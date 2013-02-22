@@ -8,11 +8,8 @@
 
     function Github() {}
 
-    Github.prototype.loadRepo = function(repo, success, error, recursive) {
-      if (recursive == null) {
-        recursive = true;
-      }
-      return $.get("https://api.github.com/repos/" + repo + "/git/trees/HEAD?recursive=" + (recursive ? '1' : '0'), success);
+    Github.prototype.loadRepo = function(repo, success, error) {
+      return $.get(repo, success);
     };
 
     Github.prototype.parseForD3 = function(data) {

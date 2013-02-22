@@ -6,17 +6,21 @@
 
   root.App = (function() {
 
-    function App(repo) {
-      var _this = this;
+    function App(repo_url) {
       this.github = new App.Github;
       this.d3 = new App.D3;
-      if (repo) {
-        this.github.loadRepo(repo, function(data) {
-          data = _this.github.parseForD3(data);
-          return _this.d3.renderCirclePack(data);
-        });
+      if (repo_url) {
+        this.load(repo_url);
       }
     }
+
+    App.prototype.load = function(repo_url) {
+      var _this = this;
+      return this.github.loadRepo(repo_url, function(data) {
+        data = _this.github.parseForD3(data);
+        return _this.d3.renderCirclePack(data);
+      });
+    };
 
     return App;
 
