@@ -6,9 +6,9 @@
     <link href="radial-tree.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div id="viz-type">
-      <a href="#" id="viz-type-circle-packing">Circle Packing<a>
-      <a href="#" id="viz-type-radial-tree">Radial Tree<a>
+    <div class="viz-type">
+      <a href="#" class="circle-packing viz">Circle Packing<a>
+      <a href="#" class="radial-tree viz">Radial Tree<a>
     </div>
     <div id="viz-path">
       <a href="#" data-path="root">root/<a>
@@ -16,17 +16,21 @@
     </div>
     <div id="viz-collections"></div>
     <div id="viz-list"></div>
+    <div class="viz-type">
+      <a href="#" class="circle-packing viz"><img src="assets/images/circle_packing.png"><a>
+      <a href="#" class="radial-tree viz"><img src="assets/images/radial_tree.png"><a>   
+    </div>
     <script src="jquery.min.js"></script>
     <script src="d3.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="app.d3.js"></script>
     <script type="text/javascript" src="app.github.js"></script>
     <script>
-      $('#viz-type-circle-packing').click(function(){
+      $('.circle-packing.viz').click(function(){
         var app = new App(App.D3CirclePack);
         app.loadGitRepo('wycats/thor');
       });
-      $('#viz-type-radial-tree').click(function(){
+      $('.radial-tree.viz').click(function(){
         var app = new App(App.D3RadialTree);
         app.loadGitRepo('wycats/thor');
       });
