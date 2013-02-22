@@ -9,7 +9,7 @@
     function Github() {}
 
     Github.prototype.loadRepo = function(repo, success, error) {
-      return $.get(repo, success);
+      return $.getJSON(repo, success);
     };
 
     Github.prototype.parseForD3 = function(data) {

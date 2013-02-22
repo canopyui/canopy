@@ -2,7 +2,7 @@ root = exports ? this
 
 class root.App.Github
   loadRepo: (repo, success, error) ->
-    $.get(repo, success)
+    $.getJSON(repo, success)
 
   parseForD3: (data) ->
     paths =
