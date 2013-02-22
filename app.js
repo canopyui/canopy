@@ -22,6 +22,40 @@
       });
     };
 
+    App.prototype.trimTree = function(tree, level, extend) {
+      var branch, _i, _len, _ref;
+      if (level == null) {
+        level = 1;
+      }
+      if (extend == null) {
+        extend = true;
+      }
+      if (extend) {
+        tree = $.extend({}, tree);
+      }
+      if (!tree.children) {
+        return tree;
+      }
+      _ref = tree.children;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        branch = _ref[_i];
+        if (!branch.children) {
+          continue;
+        }
+        if (level === 1) {
+          branch.size = this.sumSize(branch.children);
+          delete branch.children;
+        } else {
+          this.trimTree(branch, level - 1);
+        }
+      }
+      return tree;
+    };
+
+    App.prototype.sumSize = function(tree) {
+      return 0;
+    };
+
     return App;
 
   })();
