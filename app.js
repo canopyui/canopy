@@ -20,10 +20,7 @@
       this.github = new App.Github;
       this.d3 = new App.D3;
       $(this.path_elem).find('[data-path="root"]').on('click', function() {
-        $(_this.path_elem).find('[data-path="path"]').empty();
-        return _this.loadGitRepo(_this.loaded.repo, $.extend(_this.loaded, {
-          sha: 'HEAD'
-        }));
+        return _this.render(_this.data.root);
       });
     }
 
@@ -46,15 +43,20 @@
         repo = "https://api.github.com/repos/" + repo + "/git/trees/" + opts.sha + "?recursive=" + opts.recursive;
       }
       return this.github.loadRepo(repo, function(data) {
-        data = _this.github.parseForD3(data);
-        $(_this.viz_elem).empty();
-        _this.d3.renderCirclePack(_this.viz_elem, data, {
-          click: _this.onCircleClick
-        });
-        if (data.children) {
-          return _this.renderList(data);
-        }
+        _this.data = _this.github.parseForD3(data);
+        return _this.render(_this.data.root);
       });
+    };
+
+    App.prototype.render = function(data) {
+      $(this.path_elem).find('[data-path="path"]').text(data.path);
+      $(this.viz_elem).empty();
+      this.d3.renderCirclePack(this.viz_elem, data, {
+        click: this.onCircleClick
+      });
+      if (data.children) {
+        return this.renderList(data);
+      }
     };
 
     App.prototype.renderList = function(data) {
@@ -116,10 +118,7 @@
     };
 
     App.prototype.onCircleClick = function(evt) {
-      $(this.path_elem).find('[data-path="path"]').text(evt.path);
-      return this.loadGitRepo(this.loaded.repo, $.extend(this.loaded, {
-        sha: evt.sha
-      }));
+      return this.render(evt);
     };
 
     return App;

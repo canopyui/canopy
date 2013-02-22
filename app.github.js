@@ -13,40 +13,62 @@
     };
 
     Github.prototype.parseForD3 = function(data) {
-      var file, name, node, parent, path, paths, segments, tree, _i, _len;
-      tree = data.tree;
-      paths = {};
-      for (_i = 0, _len = tree.length; _i < _len; _i++) {
-        node = tree[_i];
-        segments = ("root/" + node.path).match(/(.*)\/(.*)/);
-        file = segments[2];
-        path = segments[1];
-        name = path.substr(5);
-        paths[path] || (paths[path] = {
-          name: name,
-          children: [],
-          path: name
-        });
-        if (node.type === 'tree') {
-          $.extend(paths[path], node);
+      var node, paths, _i, _len, _ref;
+      paths = {
+        root: {
+          name: '',
+          path: '',
+          children: []
+        }
+      };
+      _ref = data.tree;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        node = _ref[_i];
+        if (node.type === 'blob') {
+          this._parseForD3Blob(paths, node);
         } else {
-          node.name = file;
-          paths[path].children.push(node);
+          this._parseForD3Tree(paths, node);
         }
       }
+      return this._parseForD3Collapse(paths);
+    };
+
+    Github.prototype._parseForD3Blob = function(paths, node) {
+      var name, path, segments;
+      segments = ("root/" + node.path).match(/(.*)\/(.*)/);
+      node.name = segments[2];
+      path = segments[1];
+      name = path.substr(5);
+      paths[path] || (paths[path] = {
+        name: name,
+        path: node.path,
+        children: []
+      });
+      return paths[path].children.push(node);
+    };
+
+    Github.prototype._parseForD3Tree = function(paths, node) {
+      var name, path;
+      path = "root/" + node.path;
+      name = path.match(/(.*)\/(.*)/)[2];
+      paths[path] || (paths[path] = {
+        name: name,
+        children: []
+      });
+      return $.extend(paths[path], node);
+    };
+
+    Github.prototype._parseForD3Collapse = function(paths) {
+      var node, parent, path;
       for (path in paths) {
         node = paths[path];
-        parent = path.match(/(.*)\/(.*)/);
+        parent = path.match(/(.*)\//);
         if (!(parent && (parent = parent[1]))) {
           continue;
         }
-        paths[parent] || (paths[parent] = {
-          name: path,
-          children: []
-        });
         paths[parent].children.push(node);
       }
-      return paths.root;
+      return paths;
     };
 
     return Github;
