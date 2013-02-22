@@ -30,8 +30,14 @@
         var app = new App(App.D3CirclePack);
         app.loadGitRepo('wycats/thor');
       });
+      
       $('.radial-tree.viz').click(function(){
         var app = new App(App.D3RadialTree);
+        app.loadGitRepo('wycats/thor');
+      });
+      
+      $(document).ready(function() {
+        var app = new App(App.D3CirclePack);
         app.loadGitRepo('wycats/thor');
       });
     </script>
