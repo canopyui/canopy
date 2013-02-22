@@ -21,7 +21,7 @@
           children: []
         }
       };
-      _ref = data.tree;
+      _ref = data.data.tree;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         node = _ref[_i];
         if (node.type === 'blob') {

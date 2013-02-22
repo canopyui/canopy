@@ -40,7 +40,7 @@
       this.loaded = opts;
       opts.recursive = opts.recursive ? 1 : 0;
       if (!opts.local) {
-        repo = "https://api.github.com/repos/" + repo + "/git/trees/" + opts.sha + "?recursive=" + opts.recursive;
+        repo = "https://api.github.com/repos/" + repo + "/git/trees/" + opts.sha + "?recursive=" + opts.recursive + "&callback=?";
       }
       return this.github.loadRepo(repo, function(data) {
         _this.data = _this.github.parseForD3(data);

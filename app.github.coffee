@@ -10,7 +10,7 @@ class root.App.Github
         name: ''
         path: ''
         children: []
-    for node in data.tree
+    for node in data.data.tree
       if node.type == 'blob'
         @_parseForD3Blob(paths, node)
       else

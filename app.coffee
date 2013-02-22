@@ -17,7 +17,7 @@ class root.App
     @loaded = opts
     opts.recursive = if opts.recursive then 1 else 0
     unless opts.local
-      repo = "https://api.github.com/repos/#{repo}/git/trees/#{opts.sha}?recursive=#{opts.recursive}"
+      repo = "https://api.github.com/repos/#{repo}/git/trees/#{opts.sha}?recursive=#{opts.recursive}&callback=?"
     @github.loadRepo(repo, (data) =>
       @data = @github.parseForD3(data)
       @render(@data.root)
