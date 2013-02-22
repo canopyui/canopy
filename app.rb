@@ -1,6 +1,3 @@
-# Sinatra app for local development
-# $ ruby app.rb
-
 require 'rubygems'
 require 'sinatra'
 
