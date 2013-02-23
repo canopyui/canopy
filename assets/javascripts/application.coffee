@@ -5,12 +5,13 @@ class root.App
   viz_elem  : '#viz-collections'
   list_elem : '#viz-list'
 
-  constructor: (d3_layout) ->
-    @github = new App.Github
-    @d3 = new d3_layout   
+  constructor: (repo) ->
+    @github = Canopy.github
+    @d3 = Canopy.d3
+    @loadGitRepo(repo) if repo
     $(@path_elem).find('[data-path="root"]').on('click', =>
-      @render(@data.root)
-    )
+      @render(@data.root))
+    $('[data-toggle="viztype"]').click(@onToggleViz)
 
   loadGitRepo: (repo, options = {}) ->
     opts = $.extend({sha: 'HEAD', local: false, recursive: true}, options, {repo: repo})
@@ -19,15 +20,14 @@ class root.App
     unless opts.local
       repo = "https://api.github.com/repos/#{repo}/git/trees/#{opts.sha}?recursive=#{opts.recursive}&callback=?"
     @github.loadRepo(repo, (data) =>
-      @data = @github.parseForD3(data)
+      @data = @github.d3.parse(data)
       @render(@data.root)
     )
 
-  render: (data) ->
-    #data = @trimTree(data, 2)
-    $(@path_elem).find('[data-path="path"]').text(data.path)
+  render: (data, renderer = 'circle_pack') ->
+    $(@path_elem).find('span').text(data.path)
     $(@viz_elem).empty()
-    @d3.render(@viz_elem, data, click: @onCircleClick)
+    @d3[renderer].render(@viz_elem, data, click: @onCircleClick)
     @renderList(data) if data.children
 
   renderList: (data) ->
@@ -41,21 +41,8 @@ class root.App
     for node in data
       list.append("<div>#{node.path}</div>")
 
-  trimTree: (tree, level = 1, extend = true) ->
-    tree = $.extend({}, tree) if extend
-    return tree unless tree.children
-    for branch in tree.children
-      continue unless branch.children
-      if level == 1
-        branch.size = @sumSize(branch.children)
-        delete branch.children
-      else
-        @trimTree(branch, level-1)
-    tree
-
-  sumSize: (tree) ->
-    # todo: recursively sum up blob nodes in tree
-    0
-
   onCircleClick: (evt) =>
     @render(evt)
+
+  onToggleViz: (evt) =>
+    @render(@data.root, $(evt.currentTarget).data('viztype'))

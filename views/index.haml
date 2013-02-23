@@ -5,14 +5,11 @@
     = css :app
   %body
     .viz-type
-      %a.circle-packing.viz{:href => "#"} Circle Packing
-      %a
-      %a.radial-tree.viz{:href => "#"} Radial Tree
-      %a
+      %a{href: "#", data: {toggle: "viztype", viztype: "circle_pack"}} Circle Packing
+      %a{href: "#", data: {toggle: "viztype", viztype: "radial_tree"}} Radial Tree
     #viz-path
-      %a{"data-path" => "root", :href => "#"} root/
-      %a
-        %span{"data-path" => "path"}
+      %a{href: "#", data: {path: "root"}} root/
+      %span
     #viz-collections
     #viz-list
     .viz-type
@@ -24,17 +21,6 @@
       %a
     = js :app
     :javascript
-      $('.circle-packing.viz').click(function(){
-        var app = new App(App.D3CirclePack);
-        app.loadGitRepo('wycats/thor');
-      });
-      
-      $('.radial-tree.viz').click(function(){
-        var app = new App(App.D3RadialTree);
-        app.loadGitRepo('wycats/thor');
-      });
-      
-      $(document).ready(function() {
-        var app = new App(App.D3CirclePack);
-        app.loadGitRepo('wycats/thor');
-      });
+      $(function(){
+        var app = new App('wycats/thor')
+      })

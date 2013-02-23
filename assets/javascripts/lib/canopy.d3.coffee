@@ -1,6 +1,11 @@
+######################################################################
+# Canopy D3 Render Library
+######################################################################
 root = exports ? this
+root.Canopy ||= {}
+root.Canopy.d3 ||= {}
 
-class root.App.D3CirclePack
+root.Canopy.d3.circle_pack =
   render: (elem, data, options = {}) ->
     width = 600
     height = 600
@@ -37,7 +42,7 @@ class root.App.D3CirclePack
         .text (d) -> if d.name.length <= d.r/3 then d.name else ""
 
 
-class root.App.D3RadialTree
+root.Canopy.d3.radial_tree =
   render: (elem, data, options = {}) ->
     diameter = 960
     tree = d3.layout.tree()
@@ -61,17 +66,17 @@ class root.App.D3RadialTree
         .append("path")
         .attr("class", "link")
         .attr("d", diagonal)
-        
+
     node = svg.selectAll("#{elem} .node")
         .data(nodes)
       .enter()
         .append("g")
         .attr("class", "node")
         .attr("transform", (d) -> "rotate(" + (d.x - 90) + ")translate(" + d.y + ")")
-        
+
     node.append("circle")
         .attr "r", 4.5
-        
+
     node.append("text")
         .attr("dy", ".31em")
         .attr("text-anchor", (d) -> (if d.x < 180 then "start" else "end"))
@@ -79,4 +84,4 @@ class root.App.D3RadialTree
         .text (d) -> d.name
 
     d3.select(self.frameElement).style "height", diameter - 150 + "px"
-  
+

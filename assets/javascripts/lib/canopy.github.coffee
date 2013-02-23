@@ -1,10 +1,17 @@
-root = exports ? this
+######################################################################
+# Canopy Github Library
+######################################################################
 
-class root.App.Github
+root = exports ? this
+root.Canopy ||= {}
+
+root.Canopy.github =
   loadRepo: (repo, success, error) ->
     $.getJSON(repo, success)
 
-  parseForD3: (data) ->
+# Github => D3 Parsers
+root.Canopy.github.d3 =
+  parse: (data) ->
     paths =
       root:
         name: ''
@@ -12,12 +19,12 @@ class root.App.Github
         children: []
     for node in data.data.tree
       if node.type == 'blob'
-        @_parseForD3Blob(paths, node)
+        @parseBlob(paths, node)
       else
-        @_parseForD3Tree(paths, node)
-    @_parseForD3Collapse(paths)
+        @parseTree(paths, node)
+    @collapse(paths)
 
-  _parseForD3Blob: (paths, node) ->
+  parseBlob: (paths, node) ->
     segments = "root/#{node.path}".match(/(.*)\/(.*)/)
     node.name = segments[2]
     path = segments[1]
@@ -28,7 +35,7 @@ class root.App.Github
       children: []
     paths[path].children.push(node)
 
-  _parseForD3Tree: (paths, node) ->
+  parseTree: (paths, node) ->
     path = "root/#{node.path}"
     name = path.match(/(.*)\/(.*)/)[2]
     paths[path] ||=
@@ -36,7 +43,7 @@ class root.App.Github
       children: []
     $.extend(paths[path], node)
 
-  _parseForD3Collapse: (paths) ->
+  collapse: (paths) ->
     for path, node of paths
       parent = path.match(/(.*)\//)
       continue unless parent && parent = parent[1]
