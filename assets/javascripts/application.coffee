@@ -2,13 +2,13 @@ root = exports ? this
 
 class root.App
   path_elem : '#viz-path'
-  viz_elem  : '#viz-collections'
+  viz_elem  : '#viz-graph'
   list_elem : '#viz-list'
 
   constructor: (repo) ->
     @github = Canopy.github
-    @d3 = Canopy.d3
     @loadGitRepo(repo) if repo
+
     $(@path_elem).find('[data-path="root"]').on('click', =>
       @render(@data.root))
     $('[data-toggle="viztype"]').click(@onToggleViz)
@@ -24,10 +24,17 @@ class root.App
       @render(@data.root)
     )
 
-  render: (data, renderer = 'circle_pack') ->
+  render: (data, renderer = 'CirclePack') ->
     $(@path_elem).find('span').text(data.path)
-    $(@viz_elem).empty()
-    @d3[renderer].render(@viz_elem, data, click: @onCircleClick)
+    $elem = $(@viz_elem).empty()
+    @width = $elem.width()
+    @height = $elem.height()
+    @renderer = new Canopy.D3[renderer]
+    @renderer.render(@viz_elem, data,
+      width   : @width
+      height  : @height
+      click   : @onCircleClick
+    )
     @renderList(data) if data.children
 
   renderList: (data) ->
@@ -42,6 +49,7 @@ class root.App
       list.append("<div>#{node.path}</div>")
 
   onCircleClick: (evt) =>
+    #@renderer.zoom(evt)
     @render(evt)
 
   onToggleViz: (evt) =>

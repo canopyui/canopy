@@ -1,50 +1,16 @@
 ######################################################################
-# Canopy D3 Render Library
+# Canopy D3 Radial Tree
 ######################################################################
 root = exports ? this
 root.Canopy ||= {}
-root.Canopy.d3 ||= {}
+root.Canopy.D3 ||= {}
 
-root.Canopy.d3.circle_pack =
+class root.Canopy.D3.RadialTree
   render: (elem, data, options = {}) ->
-    width = 600
-    height = 600
-    format = d3.format(",d")
+    width     = options.width
+    height    = options.height
+    diameter  = options.diameter || Math.min(options.width, options.height)
 
-    pack = d3.layout.pack()
-      .size([ width - 4, height - 4 ])
-      .value((d) -> d.size)
-
-    vis = d3.select(elem).append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("class", "pack")
-      .append("g")
-        .attr("transform", "translate(2, 2)")
-
-    node = vis.data([ data ]).selectAll("#{elem} g.node")
-        .data(pack.nodes)
-      .enter().append("g")
-        .attr("class", (d) -> if d.children then "node" else "leaf node")
-        .attr("transform", (d) -> "translate(" + d.x + "," + d.y + ")")
-
-    node.append("title")
-      .text (d) -> d.name + (if d.children then "" else ": " + format(d.size))
-
-    node.append("circle")
-      .attr("r", (d) -> d.r)
-      .on "click", options.click
-
-    node.filter((d) -> d.children)
-      .append("text")
-        .attr("text-anchor", "middle")
-        .attr("dy", ".3em")
-        .text (d) -> if d.name.length <= d.r/3 then d.name else ""
-
-
-root.Canopy.d3.radial_tree =
-  render: (elem, data, options = {}) ->
-    diameter = 960
     tree = d3.layout.tree()
       .size([360, diameter / 2 - 120])
       .separation((a, b) -> ((if a.parent is b.parent then 1 else 2)) / a.depth)
@@ -53,10 +19,10 @@ root.Canopy.d3.radial_tree =
       .projection((d) -> [d.y, d.x / 180 * Math.PI])
 
     svg = d3.select(elem).append("svg")
-        .attr("width", diameter)
-        .attr("height", diameter - 150)
+        .attr("width", width)
+        .attr("height", height)
       .append("g")
-        .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
     nodes = tree.nodes(data)
     links = tree.links(nodes)

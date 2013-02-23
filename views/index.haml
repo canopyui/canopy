@@ -5,19 +5,19 @@
     = css :app
   %body
     .viz-type
-      %a{href: "#", data: {toggle: "viztype", viztype: "circle_pack"}} Circle Packing
-      %a{href: "#", data: {toggle: "viztype", viztype: "radial_tree"}} Radial Tree
+      %a{href: "#", data: {toggle: "viztype", viztype: "CirclePack"}} Circle Packing
+      %a{href: "#", data: {toggle: "viztype", viztype: "RadialTree"}} Radial Tree
     #viz-path
       %a{href: "#", data: {path: "root"}} root/
       %span
-    #viz-collections
+    #viz-graph
     #viz-list
     .viz-type
-      %a.circle-packing.viz{:href => "#"}
-        %img{:src => "assets/images/circle_packing.png"}/
+      %a.circle-packing.viz{href: "#", data: {toggle: "viztype", viztype: "CirclePack"}}
+        %img{src: "assets/images/circle_packing.png"}/
       %a
-      %a.radial-tree.viz{:href => "#"}
-        %img{:src => "assets/images/radial_tree.png"}/
+      %a.radial-tree.viz{href: "#", data: {toggle: "viztype", viztype: "RadialTree"}}
+        %img{src: "assets/images/radial_tree.png"}/
       %a
     = js :app
     :javascript
