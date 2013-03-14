@@ -11,8 +11,9 @@ To run the example app, install [node](http://nodejs.org/).
 brew install node
 ```
 
-# Run the server
+## Setup
 
 ```bash
+npm install
 npm start
 ```
