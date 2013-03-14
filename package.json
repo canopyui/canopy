@@ -29,8 +29,8 @@
     "clean-css-brunch": ">= 1.0 < 1.6"
   },
   "devDependencies": {
-    "chai": "1.2.0",
-    "sinon": "1.4.2",
-    "sinon-chai": "2.1.2"
+    "chai": "1.5",
+    "sinon": "1.6",
+    "sinon-chai": "2.3"
   }
 }
