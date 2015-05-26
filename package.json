@@ -15,7 +15,7 @@
     "build": "brunch build",
     "dev": "npm run serve-dev",
     "serve-dev": "brunch watch --server",
-    "serve-production": "static --port ${PORT:=4444} public",
+    "serve-production": "static --host-address 0.0.0.0 --port ${PORT:=4444} public",
     "start": "npm run serve-production",
     "test": "brunch test"
   },
