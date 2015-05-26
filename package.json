@@ -9,7 +9,7 @@
     "url": ""
   },
   "engines": {
-    "node": "~0.6.10 || 0.8 || 0.9"
+    "node": "~0.10.38"
   },
   "scripts": {
     "start": "brunch watch --server",
@@ -18,13 +18,10 @@
   "dependencies": {
     "javascript-brunch": ">= 1.0 < 1.6",
     "coffee-script-brunch": ">= 1.0 < 1.6",
-
     "css-brunch": ">= 1.0 < 1.6",
     "stylus-brunch": ">= 1.0 < 1.6",
     "less-brunch": ">= 1.0 < 1.6",
-
     "handlebars-brunch": ">= 1.0 < 1.6",
-
     "uglify-js-brunch": ">= 1.0 < 1.6",
     "clean-css-brunch": ">= 1.0 < 1.6"
   },
