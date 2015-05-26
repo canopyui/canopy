@@ -14,8 +14,7 @@ run = (cmd, options = {}) ->
   code
 
 run "npm run build"
-run "git add ."
-run "git add --force --no-ignore-removal public"
+run "git add --force --no-ignore-removal public/"
 run "git commit -m 'deploy'"
 deploy_result = run "git push --force git@heroku.com:#{HEROKU_APP}.git HEAD:master", continue_on_failure: true
 exit deploy_result
