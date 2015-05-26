@@ -15,5 +15,5 @@ run = (cmd, options = {}) ->
 
 run "npm run build"
 run "git add --force --no-ignore-removal public/"
-run "git commit -m 'deploy'"
+run "git commit -m '[bot] build and deploy'"
 run "git push --force git@heroku.com:#{HEROKU_APP}.git HEAD:master"
