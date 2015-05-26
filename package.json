@@ -12,19 +12,24 @@
     "node": "~0.10.38"
   },
   "scripts": {
-    "start": "brunch watch --server",
+    "build": "brunch build",
+    "dev": "npm run serve-dev",
+    "serve-dev": "brunch watch --server",
+    "serve-production": "static --port ${PORT:=4444} public",
+    "start": "npm run serve-production",
     "test": "brunch test"
   },
   "dependencies": {
     "brunch": "^1.8.3",
-    "javascript-brunch": ">= 1.0 < 1.6",
+    "clean-css-brunch": ">= 1.0 < 1.6",
     "coffee-script-brunch": ">= 1.0 < 1.6",
     "css-brunch": ">= 1.0 < 1.6",
-    "stylus-brunch": ">= 1.0 < 1.6",
-    "less-brunch": ">= 1.0 < 1.6",
     "handlebars-brunch": ">= 1.0 < 1.6",
-    "uglify-js-brunch": ">= 1.0 < 1.6",
-    "clean-css-brunch": ">= 1.0 < 1.6"
+    "javascript-brunch": ">= 1.0 < 1.6",
+    "less-brunch": ">= 1.0 < 1.6",
+    "node-static": "^0.7.6",
+    "stylus-brunch": ">= 1.0 < 1.6",
+    "uglify-js-brunch": ">= 1.0 < 1.6"
   },
   "devDependencies": {
     "chai": "1.5",
