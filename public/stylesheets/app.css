@@ -1,6 +1,7 @@
 body {
   padding-top: 60px;
 }
+
 /*!
  * Bootstrap v2.3.1
  *
@@ -7893,10 +7894,13 @@ a.badge:focus {
     overflow: visible !important;
   }
 }
+
+
 .header .brand:before {
   content: '\2602';
   margin-right: 5px;
 }
+
 #viz-graph {
   width: 100%;
   height: 800px;
@@ -7932,6 +7936,7 @@ a.badge:focus {
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
@@ -8104,3 +8109,5 @@ a.badge:focus {
         page-break-after: avoid;
     }
 }
+
+/*# sourceMappingURL=app.css.map*/
